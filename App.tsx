@@ -12,6 +12,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppLoading from "expo-app-loading";
 import React from "react";
 import WelcomeScreen from "./screens/WelcomeScreen";
+import ManageTask from "./screens/ManageTask";
+import { TaskContextProvider } from "./store/tasks-context";
 
 const Stack = createNativeStackNavigator();
 
@@ -47,7 +49,7 @@ const AuthenticatedStack = () => {
       }}
     >
       <Stack.Screen
-        name="Welcome"
+        name="Tasks"
         component={UserWelcomeScreen}
         options={{
           headerRight: ({ tintColor }) => (
@@ -59,6 +61,11 @@ const AuthenticatedStack = () => {
             />
           ),
         }}
+      />
+      <Stack.Screen
+        name="ManageTask"
+        component={ManageTask}
+        options={{ headerShown: false, presentation: "fullScreenModal" }}
       />
     </Stack.Navigator>
   );
@@ -82,9 +89,10 @@ const Root = () => {
   useEffect(() => {
     const fetchToken = async () => {
       const storedToken = await AsyncStorage.getItem("token");
+      const storedUserId = await AsyncStorage.getItem("userId");
 
-      if (storedToken) {
-        authCtx.authenticate(storedToken);
+      if (storedToken && storedUserId) {
+        authCtx.authenticate(storedToken, storedUserId);
       }
 
       setIsTryingLogin(false);
@@ -105,7 +113,9 @@ export default function App() {
     <>
       <StatusBar style="light" />
       <AuthContextProvider>
-        <Root />
+        <TaskContextProvider>
+          <Root />
+        </TaskContextProvider>
       </AuthContextProvider>
     </>
   );
