@@ -1,9 +1,11 @@
 import {
   GestureResponderEvent,
   Pressable,
+  StyleProp,
   StyleSheet,
   Text,
   View,
+  ViewStyle,
 } from "react-native";
 import { Colors } from "../../constants/styles";
 import { FC, ReactNode } from "react";
@@ -11,12 +13,13 @@ import { FC, ReactNode } from "react";
 interface ButtonProps {
   children: ReactNode;
   onPress: (event: GestureResponderEvent) => void;
+  style?: StyleProp<ViewStyle>;
 }
 
-const Button: FC<ButtonProps> = ({ children, onPress }) => {
+const Button: FC<ButtonProps> = ({ children, onPress, style }) => {
   return (
     <Pressable
-      style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+      style={({ pressed }) => [styles.button, pressed && styles.pressed, style]}
       onPress={onPress}
     >
       <View>

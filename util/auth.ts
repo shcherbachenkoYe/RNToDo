@@ -17,8 +17,9 @@ export const authenticate = async (
     });
 
     const token = response.data.idToken;
+    const userId = response.data.localId;
 
-    return token;
+    return { token, userId };
   } catch (error) {
     console.error("Authentication error:", error);
     throw new Error("Authentication failed");

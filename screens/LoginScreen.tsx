@@ -18,8 +18,8 @@ const LoginScreen = () => {
     setIsAuthenticating(true);
 
     try {
-      const token = await login(email, password);
-      authCtx.authenticate(token);
+      const { token, userId } = await login(email, password);
+      authCtx.authenticate(token, userId);
     } catch (error) {
       Alert.alert("Error", "Can't login");
       setIsAuthenticating(false);
