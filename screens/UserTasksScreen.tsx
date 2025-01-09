@@ -1,18 +1,17 @@
 import axios from "axios";
-import { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import TaskForm from "../components/Tasks/TaskForm";
 import Button from "../components/ui/Button";
 import { TaskContext } from "../store/tasks-context";
 import TaskList from "../components/Tasks/TaskList";
 
-const UserWelcomeScreen = ({ navigation }) => {
+const UserTasksScreen = ({ navigation }) => {
   const { tasks } = useContext(TaskContext);
 
   return (
     <View style={styles.rootContainer}>
       {!tasks?.length ? (
-        <Text>You don't have any tasks yet</Text>
+        <Text style={styles.message}>You don't have any tasks yet</Text>
       ) : (
         <TaskList />
       )}
@@ -27,7 +26,7 @@ const UserWelcomeScreen = ({ navigation }) => {
   );
 };
 
-export default UserWelcomeScreen;
+export default UserTasksScreen;
 
 const styles = StyleSheet.create({
   rootContainer: {
@@ -38,5 +37,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 8,
+  },
+  message: {
+    fontSize: 18,
+    textAlign: "center",
+    marginVertical: 12,
   },
 });

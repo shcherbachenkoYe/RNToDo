@@ -1,18 +1,34 @@
-import { useContext } from "react";
+import { FC, useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import TaskForm from "../components/Tasks/TaskForm";
-import { TaskContext } from "../store/tasks-context";
+import { Task, TaskContext } from "../store/tasks-context";
 
-const ManageTask = ({ navigation }) => {
-  const { addTask } = useContext(TaskContext);
+const ManageTask = ({ navigation, route }: { navigation: any; route: any }) => {
+  const { addTask, editTask } = useContext(TaskContext);
+  const task = route?.params?.task;
+  const isEdit = !!task;
 
   const onCancelHandler = () => {
     navigation.replace("Tasks");
   };
 
+  const onSubmitHandler = (taskData: Task) => {
+    if (isEdit) {
+      editTask(task.id, taskData);
+    } else {
+      addTask(taskData);
+    }
+    navigation.replace("Tasks");
+  };
+
   return (
     <View style={styles.rootContainer}>
-      <TaskForm onCancel={onCancelHandler} onSubmit={addTask} />
+      <TaskForm
+        onCancel={onCancelHandler}
+        onSubmit={onSubmitHandler}
+        isEdit={isEdit}
+        task={task}
+      />
     </View>
   );
 };

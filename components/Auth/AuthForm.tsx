@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Button from "../ui/Button";
-import Input from "./Input";
+import Input from "../ui/Input";
 
 interface CredentialsProps {
   email: boolean;

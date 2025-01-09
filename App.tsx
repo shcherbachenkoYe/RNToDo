@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
-import UserWelcomeScreen from "./screens/UserWelcomeScreen";
 import { Colors } from "./constants/styles";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
 import { useContext, useEffect, useState } from "react";
@@ -14,6 +13,7 @@ import React from "react";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import ManageTask from "./screens/ManageTask";
 import { TaskContextProvider } from "./store/tasks-context";
+import UserTasksScreen from "./screens/UserTasksScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -50,7 +50,7 @@ const AuthenticatedStack = () => {
     >
       <Stack.Screen
         name="Tasks"
-        component={UserWelcomeScreen}
+        component={UserTasksScreen}
         options={{
           headerRight: ({ tintColor }) => (
             <IconButton

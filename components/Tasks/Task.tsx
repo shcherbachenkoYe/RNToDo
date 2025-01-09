@@ -1,11 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Button from "../ui/Button";
+import { useNavigation } from "@react-navigation/native";
+import { Task as TaskType } from "../../store/tasks-context";
 
-interface TaskProps {
-  id: string;
-  name: string;
-  completed: boolean;
+interface TaskProps extends TaskType {
   onToggleCompletion: (id: string) => void;
   onRemove: (id: string) => void;
 }
@@ -17,6 +16,13 @@ const Task: React.FC<TaskProps> = ({
   onToggleCompletion,
   onRemove,
 }) => {
+  const navigation = useNavigation();
+  const task = {
+    id: id,
+    name: name,
+    completed: completed,
+  } as TaskType;
+
   return (
     <View style={styles.task}>
       <TouchableOpacity
@@ -27,8 +33,10 @@ const Task: React.FC<TaskProps> = ({
           {name}
         </Text>
       </TouchableOpacity>
-      //TODO: create edit function
-      <Button style={{ marginHorizontal: 5 }} onPress={() => {}}>
+      <Button
+        style={{ marginHorizontal: 5 }}
+        onPress={() => navigation.replace("ManageTask", { task })}
+      >
         Edit
       </Button>
       <Button onPress={() => onRemove(id)}>Remove</Button>

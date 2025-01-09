@@ -1,7 +1,7 @@
 import { Alert, StyleSheet, Text, View } from "react-native";
 import { FC, useId, useState } from "react";
 import Button from "../ui/Button";
-import Input from "../Auth/Input";
+import Input from "../ui/Input";
 import { Colors } from "../../constants/styles";
 import { Task } from "../../store/tasks-context";
 import { useNavigation } from "@react-navigation/native";
@@ -9,10 +9,12 @@ import { useNavigation } from "@react-navigation/native";
 interface TaskFormProps {
   onSubmit: (task: Task) => void;
   onCancel: () => void;
+  isEdit: boolean;
+  task?: Task;
 }
 
-const TaskForm: FC<TaskFormProps> = ({ onSubmit, onCancel }) => {
-  const [taskValue, setTaskValue] = useState<string>("");
+const TaskForm: FC<TaskFormProps> = ({ onSubmit, onCancel, isEdit, task }) => {
+  const [taskValue, setTaskValue] = useState<string>(task?.name || "");
   const navigation = useNavigation();
   const id = useId();
 
@@ -22,9 +24,15 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit, onCancel }) => {
 
   const onSubmitHandler = () => {
     if (taskValue) {
-      onSubmit({ id: id, name: taskValue, completed: false });
+      onSubmit({
+        id: task?.id || id,
+        name: taskValue,
+        completed: task?.completed || false,
+      });
       navigation.replace("Tasks");
-    } else Alert.alert("Empty task", "Please tab your task!");
+    } else {
+      Alert.alert("Empty task", "Please enter your task!");
+    }
   };
 
   return (
@@ -40,7 +48,7 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit, onCancel }) => {
       </View>
       <View style={styles.buttons}>
         <Button onPress={onCancel}>Cancel</Button>
-        <Button onPress={onSubmitHandler}>Add</Button>
+        <Button onPress={onSubmitHandler}>{isEdit ? "Update" : "Add"}</Button>
       </View>
     </View>
   );
