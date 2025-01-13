@@ -1,12 +1,16 @@
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Button from "../components/ui/Button";
 import { TaskContext } from "../store/tasks-context";
 import TaskList from "../components/Tasks/TaskList";
 
 const UserTasksScreen = ({ navigation }) => {
-  const { tasks } = useContext(TaskContext);
+  const { tasks, loadTasks } = useContext(TaskContext);
+
+  useEffect(() => {
+    loadTasks();
+  }, [loadTasks]);
 
   return (
     <View style={styles.rootContainer}>

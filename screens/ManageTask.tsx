@@ -12,7 +12,7 @@ const ManageTask = ({ navigation, route }: { navigation: any; route: any }) => {
     navigation.replace("Tasks");
   };
 
-  const onSubmitHandler = (taskData: Task) => {
+  const onSubmitHandler = (taskData: Omit<Task, "id">) => {
     if (isEdit) {
       editTask(task.id, taskData);
     } else {

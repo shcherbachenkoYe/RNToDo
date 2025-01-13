@@ -7,7 +7,7 @@ import { Task } from "../../store/tasks-context";
 import { useNavigation } from "@react-navigation/native";
 
 interface TaskFormProps {
-  onSubmit: (task: Task) => void;
+  onSubmit: (task: Omit<Task, "id">) => void;
   onCancel: () => void;
   isEdit: boolean;
   task?: Task;
@@ -25,7 +25,6 @@ const TaskForm: FC<TaskFormProps> = ({ onSubmit, onCancel, isEdit, task }) => {
   const onSubmitHandler = () => {
     if (taskValue) {
       onSubmit({
-        id: task?.id || id,
         name: taskValue,
         completed: task?.completed || false,
       });
